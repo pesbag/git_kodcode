@@ -10,10 +10,9 @@ x=int(input("Enter first variable"))
 print(f"The first variable is: {x}")
 y=int(input("Enter second variable"))
 print(f"The second variable is: {y}")
-y=x+y-y
-x=y-x
-
-y=y-x
+y=y + x
+x=y- x
+y= y-x
 print(f"the first varaible after swap is: {x}")
 print(f"the second varaible after swap is: {y}")
 # 3

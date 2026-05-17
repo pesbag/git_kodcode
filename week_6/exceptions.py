@@ -30,12 +30,14 @@ print(parse_ints(['1','34','fssa','5','6']))
 # 5
 def set_age(age):
     try:
-        if not (150>=age>0):
-            raise("Error age is not valid")
+        if 150>=age>0:
+            return age
+        else:
+            raise ValueError
     except ValueError:
-        raise ValueError("Value error")
+        raise ValueError("Error age is not valid")
 # 6
-def retery(func,n):
+def retry(func,n):
     for index in range(n):
         try:
             return func()
@@ -48,13 +50,13 @@ def error_count(funcs):
     for function in funcs:
         try:
             function()
-        except Exception as e:
+        except Exception:
             counter+=1
     return counter
 # 8
 def load_config(path):
     try:
-        with open(file.txt,"r") as f:
+        with open(path,"r") as f:
             int(f.readline())
     except Exception as e:
         raise RuntimeError("failed to load config") from e

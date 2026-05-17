@@ -109,7 +109,7 @@ def create_new_user(name,email):
         check_validation_user(name,email)
         return name, email, "user", "2024-01-01", True
     except ValueError:
-        return
+        return None
 
 # 5
 def get_status(score):
@@ -142,42 +142,24 @@ def get_greeting(hour):
         return "Good night"
 # 6
 
-def validate_student():
-    return
-def calculste_student_stats():
-    return
-def print_report():
-    return
+def validate_student(name, grades):
+    if not name:
+        raise ValueError("missing name")
+    if not grades:
+        raise ValueError(f"{name} has no grades")
 
-def process_grades(names, all_grades):
-    result_names = []
-    result_averages = []
-    result_statuses = []
-    result_highs = []
-    result_lows = []
-    for i in range(len(names)):
-        name = names[i]
-        grades = all_grades[i]
+PASS_GRADE = 56
+def calculate_student_stats(name, grades):
+    average = sum(grades) / len(grades)
+    return {
+        "name": name,
+        "average": round(average, 1),
+        "status": "pass" if average >= PASS_GRADE else "fail",
+        "highest": max(grades),
+        "lowest": min(grades)
+            }
 
-        if not name:
-            print(f"Error: missing name")
-            continue
-        if not grades:
-            print(f"Error: {name} has no grades")
-            continue
-
-        total = sum(grades)
-        average = total / len(grades)
-        status = "pass" if average >= 56 else "fail"
-        highest = max(grades)
-        lowest = min(grades)
-
-        result_names.append(name)
-        result_averages.append(round(average, 1))
-        result_statuses.append(status)
-        result_highs.append(highest)
-        result_lows.append(lowest)
-
+def print_report(result_names, result_averages, result_statuses, result_lows, result_highs):
     print("=" * 40)
     print("Student Grade Report")
     print("=" * 40)
@@ -187,13 +169,44 @@ def process_grades(names, all_grades):
         print(f"  Status: {result_statuses[i]}")
         print(f"  Range: {result_lows[i]} - {result_highs[i]}")
         print()
-
     passing_count = sum(1 for s in result_statuses if s == "pass")
     print(f"Total passing: {passing_count}/{len(result_names)}")
+
+def process_grades(names, all_grades):
+    result_names = []
+    result_averages = []
+    result_statuses = []
+    result_highs = []
+    result_lows = []
+
+    for i in range(len(names)):
+        name = names[i]
+        grades = all_grades[i]
+
+        try:
+            validate_student(name, grades)
+            stats = calculate_student_stats(name,grades)
+
+            result_names.append(stats["name"])
+            result_averages.append(stats["average"])
+            result_statuses.append(stats["status"])
+            result_highs.append(stats["highest"])
+            result_lows.append(stats["lowest"])
+        except ValueError as e:
+            print(f"Error: {e}")
+            continue
+
+    print_report(result_names, result_averages, result_statuses, result_lows, result_highs)
     return result_names, result_averages, result_statuses
+
+
 
 # 7
 TAX = 0.17
+PREMIUM_DISCOUNT = 0.9
+VIP_DISCOUNT = 0.8
+FREE_SHIPPING = 500
+CHEAP_SHIPPING = 200
 def process_cart(prices,quantities,user_type):
   total_price=0
   for i in range(len(prices)):
@@ -203,14 +216,19 @@ def process_cart(prices,quantities,user_type):
   # add tax for price
   total_price = total_price + total_price * TAX
   if user_type=='premium':
-    total_price=total_price*0.9
+    #   get discount because he is a premium service
+    total_price=total_price*PREMIUM_DISCOUNT
+  #   get discount because he is a vip service
   elif user_type=='vip':
-      total_price = total_price * 0.8
-  if total_price>500:
+      total_price = total_price * VIP_DISCOUNT
+  #   free shiping due to very higher price order
+  if total_price>FREE_SHIPPING:
     shipping=0
-  elif total_price > 200:
+  elif total_price > CHEAP_SHIPPING:
+    #   cheap shiping because of higher price order
     shipping = 25
   else:
+    #   a regular price order
     shipping=50
   total_price=total_price+shipping
   return total_price

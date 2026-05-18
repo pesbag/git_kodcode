@@ -20,10 +20,10 @@ def count_occur(tuple,num):
             counter+=1
     return counter
 # 4
-def reverse_tuple(tuple):
+def reverse_tuple(tpl):
     new_lst=[]
-    for num in range(len(tuple)-1,-1,-1):
-        new_lst.append(tuple[num])
+    for num in range(len(tpl)-1,-1,-1):
+        new_lst.append(tpl[num])
     return tuple(new_lst)
 
 # def revers_tuple2(tple):

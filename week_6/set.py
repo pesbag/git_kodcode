@@ -32,7 +32,7 @@ def is_subset(lst1,lst2):
 # 6
 def unique_chars(str):
     return len(str)==len(set(str))
-print(unique_chars("hello"))
+# print(unique_chars("hello"))
 # 7
 def first_reapeted(lst):
     new_set=set()
@@ -56,7 +56,16 @@ def pair_sum_exists(lst,num):
             return True
         new_set.add(lst[i])
     return False
-# print(pair_sum_exists( [3, 1, 4, 7, 2],6))
+# print(pair_sum_exists( [3, 1,4 , 7, 2],6))
+def pair_distinct_sum_exists(lst,num):
+    new_set=set()
+    for i in range(0,len(lst)):
+        diff=num-lst[i]
+        if diff in new_set and diff!=lst[i]:
+            return True
+        new_set.add(lst[i])
+    return False
+print(pair_distinct_sum_exists( [3, 1,4 , 7, 2],6))
 # 10
 def symnetric_diff(lst1,lst2):
     new_lst = []

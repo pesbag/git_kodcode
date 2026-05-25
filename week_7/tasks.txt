@@ -1,0 +1,4 @@
+1|DONE|ללמוד Python Files
+2|DONE|1 תרגיל לכתוב
+3|PENDING|הפרויקט את לסיים
+3|Pending|לסיים את הפרוייקט

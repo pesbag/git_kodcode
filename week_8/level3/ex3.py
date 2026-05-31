@@ -16,18 +16,18 @@ def return_all_students():
 
 @app.get("/students/top")
 def highest_grade():
-    return max(grades.values(),key=lambda high:high["grade"])
+    return {"max grade":max(grades.values(),key=lambda high:high["grade"])}
 
 @app.get("/students/average")
 def find_avg():
     total=0
     for k,v in grades.items():
         total+=v["grade"]
-    return total/len(grades)
+    return {"average":total/len(grades)}
 
 @app.get("/students/count")
 def count_students():
-    return len(grades)
+    return {"num of student":len(grades)}
 
 @app.get("/students/{student_id}")
 def find_student(student_id:str):

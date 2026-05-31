@@ -78,11 +78,12 @@ def write_structured_log(message,module,level,**extra):
 # מה שטוב בלוגר הזה זה שהוא נותן לנו את הזהות של המשתמש אבל עדיין חסרה פה אינפורמציה שניתן להסיק ממנה מידע ולעבוד עם התוצאות שלה למשל באיזה שלב אנחנו ומה התבצע
 
 # 11
-#
-#
-#
-#
-#
+#warning
+#error
+#worning
+#worning
+#info
+#error
 
 # 12
 logging.basicConfig(level=logging.DEBUG)
@@ -105,6 +106,9 @@ def get_logger(name):
     file_handler.setFormatter(formatter)
     stream_handler=logging.StreamHandler()
     stream_handler.setFormatter(formatter)
+    if not logger.handlers:
+        logger.addHandler(stream_handler)
+        logger.addHandler(file_handler)
     return logger
 def add(a,b):
     lg=get_logger("first modul")
@@ -114,5 +118,13 @@ def sub(a,b):
     lg=get_logger("second modul")
     lg.info("enter to add at second modul")
     return a-b
-add(2,2)
-sub(7,2)
+# add(2,2)
+# sub(7,2)
+# 14
+def process_request(request_id,user_id,action):
+    pass
+
+# logger_s=logging.getLogger('aaa')
+# formatter=logging.Formatter('%(asctime)s | %(levelname)s | %(name)s')
+# stream_handler=logging.StreamHandler()
+

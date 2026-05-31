@@ -102,6 +102,9 @@ class Money:
     def is_more_than(self,other):
         """Docstring"""
         return self._amount>other.get_amount()
+m1=Money(5)
+m2=Money(7)
+print(m1.is_more_than(m2))
 # 10
 class PlayList:
     def __init__(self,song_lst):

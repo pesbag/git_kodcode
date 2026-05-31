@@ -65,7 +65,7 @@ def pair_distinct_sum_exists(lst,num):
             return True
         new_set.add(lst[i])
     return False
-print(pair_distinct_sum_exists( [3, 1,4 , 7, 2],6))
+# print(pair_distinct_sum_exists( [3, 1,4 , 7, 2],6))
 # 10
 def symnetric_diff(lst1,lst2):
     new_lst = []

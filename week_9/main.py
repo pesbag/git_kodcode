@@ -22,13 +22,13 @@ def get_schema():
 @app.get("/soldiers")
 def get_all_soldiers():
     result=db.get_all()
-    return result
+    return {"soldiers":result}
 
 @app.delete("/soldier/{soldier_id}")
 def remove_soldier(soldier_id):
     result= db.delete(soldier_id)
     if not result:
-        raise HTTPException(status_code=404,detail="soldier id was not found")
+        raise HTTPException(status_code=404,detail="Soldier id was not found")
     else:
         return result
 
@@ -43,10 +43,8 @@ def update_soldier(soldier_id:int,data:dict):
 @app.post("/create")
 def create_soldier(data:Soldier):
     data=data.model_dump()
-    return db.create(
-        # data["name"],data["soldier_rank"],data["unit"],data["active"]
-    **data
-    )
+    new_id=db.create(**data)
+    return {"id":new_id,"message": "Soldier creates successfully"}
 
 if __name__=="__main__":
     uvicorn.run(app, host="localhost", port=8000)

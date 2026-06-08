@@ -68,6 +68,7 @@ def add_massage(data:dict):
     cursor.close()
     conn.close()
     return new_id
+
 def get_specific_message(id:int):
     """
     get a specific message
@@ -75,8 +76,8 @@ def get_specific_message(id:int):
     :return: the specific message
     """
     conn=get_connection()
-    cursor=conn.cursor()
-    sql="SELECT * FROM messages WHERE id==%s"
+    cursor=conn.cursor(dictionary=True)
+    sql="SELECT * FROM messages WHERE id=%s"
     cursor.execute(sql,(id,))
     row=cursor.fetchall()
     cursor.close()
@@ -116,4 +117,4 @@ def delete_specific_message(id:int):
     deleted=cursor.rowcount>0
     cursor.close()
     conn.close()
-    return deleted
+    return True if deleted else False

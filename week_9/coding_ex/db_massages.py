@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import mysql.connector
+# from coding_ex.setup_messages import cursor
 def get_connection():
     return mysql.connector.connect(
     host="localhost",
@@ -42,3 +43,21 @@ def get_all_messages():
         }
         for row in rows
     ]
+
+def add_massage(data:dict):
+    conn=get_connection()
+    cursor=conn.cursor()
+    sql="INSERT INTO messages (unit,classification,content,source) VALUES (%s,%s,%s,%s)"
+    values=(data["unit"],data["classification"],data["content"],data["source"])
+    cursor.execute(sql,values)
+    conn.commit()
+    new_id=cursor.lastrowid
+    cursor.close()
+    conn.close()
+    return new_id
+def get_specific_message(id:int):
+    pass
+def update_specific_message(id:int):
+    pass
+def delete_specific_massage(id:int):
+    pass

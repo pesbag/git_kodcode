@@ -21,6 +21,7 @@ created_at DATETIME DEFAULT NOW()
 """
 intel_m.execute(create_tabel_sql)
 i_m.commit()
+# cursor=intel_m.cursor()
 intel_m.execute("DESCRIBE messages")
 intel_m.fetchall()
 print("Tabel created successfully")

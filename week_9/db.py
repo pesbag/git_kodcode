@@ -3,8 +3,8 @@ from setup import cursor
 
 def get_connection():
     """
-
-    :return:
+    connecting to mysql localhost
+    :return: the specific tabel in DATABASE
     """
     return mysql.connector.connect(
     host="localhost",
@@ -15,14 +15,29 @@ def get_connection():
     )
 
 def get_schema():
+    """
+    get the soldier tabel and return his structure
+    :return: the structure of soldier table
+    """
     conn=get_connection()
     cursor=conn.cursor()
     cursor.execute("DESCRIBE soldiers")
     rows=cursor.fetchall()
     cursor.close()
     conn.close()
-    return [{"column":row[0],"type":row[1]} for row in rows]
+    return [
+        {
+            "field_name":row[0],
+            "type":row[1],
+            "allow_null":row[2],
+            "key_type":row[3]
+         }
+        for row in rows
+    ]
 def get_all():
+    """"
+    return all the soldiers exists in the tabel
+    """
     conn=get_connection()
     cursor=conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM soldiers")
@@ -31,6 +46,9 @@ def get_all():
     conn.close()
     return rows
 def get_by_id(soldier_id):
+    """"
+    return soldier by his id
+    """
     conn=get_connection()
     cursor.conn.cursor(dictionary=True)
 
@@ -42,7 +60,7 @@ def get_by_id(soldier_id):
 
 def create(name,soldier_rank,unit,active=True):
     """"
-
+    create a row in sql tabel
     """
     conn=get_connection()
     cursor=conn.cursor()

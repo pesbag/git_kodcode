@@ -34,6 +34,7 @@ def get_schema():
          }
         for row in rows
     ]
+
 def get_all():
     """"
     return all the soldiers exists in the tabel
@@ -45,6 +46,7 @@ def get_all():
     cursor.close()
     conn.close()
     return rows
+
 def get_by_id(soldier_id):
     """"
     return soldier by his id
@@ -64,10 +66,35 @@ def create(name,soldier_rank,unit,active=True):
     """
     conn=get_connection()
     cursor=conn.cursor()
-    sql="INSERT INTO soldiers (name,soldier_rank,unit,active) VALUES (%s,%s,%s)"
+    sql="INSERT INTO soldiers (name,soldier_rank,unit,active) VALUES (%s,%s,%s,%s)"
     values=(name,soldier_rank,unit,active)
     cursor.execute(sql,values)
     conn.commit()
     new_id=cursor.lastrowid
     cursor.close()
     conn.close()
+
+def update(soldier_id:int,data:dict):
+    """
+    update data of specific soldier
+    :param soldier_id: soldier to update values
+    :param data: new data to update
+    :return: false if there is no update, else true
+    """
+    conn=get_connection()
+    cursor=conn.cursor()
+    set_parts=[f"{key}=%s" for key in data.keys()]
+    set_clause=",".join(set_parts)
+    sql=f"UPDATE soldiers SET {set_clause} WHERE id = %s"
+    values=list(data.values())+[soldier_id]
+    cursor.execute(sql,values)
+    conn.commit()
+    changed=cursor.rowcount>0
+    cursor.close()
+    conn.close()
+    return changed
+
+
+if __name__=="__main__":
+    # create("Pesach","A","8200")
+    pass

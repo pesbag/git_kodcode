@@ -94,6 +94,19 @@ def update(soldier_id:int,data:dict):
     conn.close()
     return changed
 
+def delete(soldier_id):
+    """"
+    delete a specific soldier from soldiers data base
+    :return: true if delete success,else false
+    """
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM soldiers WHERE id = %s",(soldier_id,))
+    conn.commit()
+    deleted=cursor.rowcount>0
+    cursor.close()
+    conn.close()
+    return deleted
 
 if __name__=="__main__":
     # create("Pesach","A","8200")

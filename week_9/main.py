@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 from fastapi import Body
 import uvicorn
 import db
@@ -18,10 +18,27 @@ def run_setup():
 def get_schema():
     columns=db.get_schema()
     return {"columns":columns}
+
 @app.get("/soldiers")
 def get_all_soldiers():
     result=db.get_all()
     return result
+
+@app.delete("/soldier/{soldier_id}")
+def remove_soldier(soldier_id):
+    result= db.delete(soldier_id)
+    if not result:
+        raise HTTPException(status_code=404,detail="soldier id was not found")
+    else:
+        return result
+
+@app.put("/update/{soldier_id}")
+def update_soldier(soldier_id:int,data:dict):
+    result=db.update(soldier_id,data)
+    if not result:
+        raise HTTPException(status_code=404, detail="soldier id was not found")
+    else:
+        return result
 
 @app.post("/create")
 def create_soldier(data:Soldier):

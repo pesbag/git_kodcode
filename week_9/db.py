@@ -2,6 +2,10 @@ import mysql.connector
 from setup import cursor
 
 def get_connection():
+    """
+
+    :return:
+    """
     return mysql.connector.connect(
     host="localhost",
     port=3306,
@@ -36,9 +40,16 @@ def get_by_id(soldier_id):
     conn.close()
     return row
 
-def create(name,soldier_rank,unit,active):
+def create(name,soldier_rank,unit,active=True):
     """"
+
     """
     conn=get_connection()
     cursor=conn.cursor()
-    sql=
+    sql="INSERT INTO soldiers (name,soldier_rank,unit,active) VALUES (%s,%s,%s)"
+    values=(name,soldier_rank,unit,active)
+    cursor.execute(sql,values)
+    conn.commit()
+    new_id=cursor.lastrowid
+    cursor.close()
+    conn.close()

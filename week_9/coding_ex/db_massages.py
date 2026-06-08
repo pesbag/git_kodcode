@@ -118,3 +118,11 @@ def delete_specific_message(id:int):
     cursor.close()
     conn.close()
     return True if deleted else False
+def return_messages_unit(unit_name):
+    conn=get_connection()
+    cursor=conn.cursor()
+    cursor.execute("SELECT * from messages where unit=%s",(unit_name,))
+    all_unit=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return all_unit

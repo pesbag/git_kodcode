@@ -45,5 +45,18 @@ def delete_message(message_id):
     if not result:
         raise HTTPException(status_code=404,detail="message id was not found, nothing deleted")
     return result
+
+@app.get("/messages/unit/{unit_name}")
+def all_unit_messages(unit_name):
+    """
+    get all the unit messages
+    :param unit_name: unit to find his message
+    :return: messages or error
+    """
+    result=db_massages.return_messages_unit(unit_name)
+    if not result:
+        raise HTTPException(status_code=400,detail="unit was not found, nothing returned")
+    return result
+
 if __name__=="__main__":
     uvicorn.run("main:app",host="localhost",port=8001,reload=True)

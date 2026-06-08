@@ -10,6 +10,10 @@ def get_connection():
     database="soldiers_db"
 )
 def get_schema():
+    """
+    get the schema of the tabel
+    :return: the schema
+    """
     conn=get_connection()
     cursor=conn.cursor()
     cursor.execute("DESCRIBE messages")
@@ -26,6 +30,10 @@ def get_schema():
         for row in rows
     ]
 def get_all_messages():
+    """
+    get all the messages
+    :return: return all the messages in the repository
+    """
     conn=get_connection()
     cursor=conn.cursor()
     cursor.execute("SELECT id, unit, classification, content, source, created_at FROM messages")
@@ -45,6 +53,11 @@ def get_all_messages():
     ]
 
 def add_massage(data:dict):
+    """
+    add new message to our sql tabel
+    :param data: new data to insert
+    :return: the new id of the data
+    """
     conn=get_connection()
     cursor=conn.cursor()
     sql="INSERT INTO messages (unit,classification,content,source) VALUES (%s,%s,%s,%s)"
@@ -69,8 +82,27 @@ def get_specific_message(id:int):
     cursor.close()
     conn.close()
     return row
-def update_specific_message(id:int):
-    pass
+def update_specific_message(id:int,data:dict):
+    """
+    update specific message data
+    :param id: message to update
+    :param data: new data to update
+    :return: the number of messages changed
+    """
+    conn=get_connection()
+    cursor=conn.cursor()
+    # cursor.execute("DESCRIBE messages")
+    set_part=[f"{key}=%s" for key in data.keys()]
+    set_clause=",".join(set_part)
+    sql=f"UPDATE messages SET {set_clause} WHERE id= %s"
+    values=list(data.values())+[id]
+    cursor.execute(sql,values)
+    conn.commit()
+    changed=cursor.rowcount>0
+    cursor.close()
+    conn.close()
+    return changed
+
 def delete_specific_message(id:int):
     """
     delete a specific message from database
@@ -78,8 +110,8 @@ def delete_specific_message(id:int):
     :return: update database without the message id
     """
     conn=get_connection()
-    cursor=conn.cursore()
-    cursor.execute("DELETE * FROM messages WHERE id==%s",(id,))
+    cursor=conn.cursor()
+    cursor.execute("DELETE FROM messages WHERE id=%s",(id,))
     conn.commit()
     deleted=cursor.rowcount>0
     cursor.close()

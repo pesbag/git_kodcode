@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 
 import db_massages
@@ -33,12 +33,17 @@ def return_message(message_id):
     return db_massages.get_specific_message(message_id)
 
 @app.put("/messages/{message_id}")
-def update_message(message_id):
-    return db_massages.update_specific_message(message_id)
+def update_message(message_id:int,data:dict):
+    result= db_massages.update_specific_message(message_id,data)
+    if not result:
+        raise HTTPException(status_code=404,detail="message id was not found, nothing updated")
+    return result
 
 @app.delete("/messages/{message_id}")
 def delete_message(message_id):
-        return db_massages.delete_specific_massage(message_id)
-
+    result=db_massages.delete_specific_message(message_id)
+    if not result:
+        raise HTTPException(status_code=404,detail="message id was not found, nothing deleted")
+    return result
 if __name__=="__main__":
     uvicorn.run("main:app",host="localhost",port=8001,reload=True)

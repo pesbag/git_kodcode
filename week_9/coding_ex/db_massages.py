@@ -71,5 +71,17 @@ def get_specific_message(id:int):
     return row
 def update_specific_message(id:int):
     pass
-def delete_specific_massage(id:int):
-    pass
+def delete_specific_message(id:int):
+    """
+    delete a specific message from database
+    :param id: message id to remove
+    :return: update database without the message id
+    """
+    conn=get_connection()
+    cursor=conn.cursore()
+    cursor.execute("DELETE * FROM messages WHERE id==%s",(id,))
+    conn.commit()
+    deleted=cursor.rowcount>0
+    cursor.close()
+    conn.close()
+    return deleted

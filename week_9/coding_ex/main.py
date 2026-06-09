@@ -29,8 +29,11 @@ def add_massage_to_table(data:Message):
     return {"new_id":new_id,"messages":"created successfully"}
 
 @app.get("/messages/{message_id}")
-def return_message(message_id):
-    return db_massages.get_specific_message(message_id)
+def return_message(message_id:int):
+    result= db_massages.get_specific_message(message_id)
+    if not result:
+        raise HTTPException(status_code=404,detail="message id was not found, nothing updated")
+    return result
 
 @app.put("/messages/{message_id}")
 def update_message(message_id:int,data:dict):

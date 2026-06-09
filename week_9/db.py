@@ -1,5 +1,6 @@
 import mysql.connector
 from setup import cursor
+import uvicorn
 
 def get_connection():
     """
@@ -108,6 +109,25 @@ def delete(soldier_id):
     conn.close()
     return deleted
 
+def get_names_and_ranks():
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT id,soldier_rank FROM soldiers")
+    rows=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
+
+def get_by_rank(rank:str):
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM soldiers WHERE soldier_rank=%s",(rank,))
+    rows=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
+
+def get_by_name(soldier_name)
+
 if __name__=="__main__":
-    # create("Pesach","A","8200")
     pass

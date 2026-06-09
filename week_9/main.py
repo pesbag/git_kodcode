@@ -25,7 +25,7 @@ def get_all_soldiers():
     return {"soldiers":result}
 
 @app.delete("/soldier/{soldier_id}")
-def remove_soldier(soldier_id):
+def remove_soldier(soldier_id:int):
     result= db.delete(soldier_id)
     if not result:
         raise HTTPException(status_code=404,detail="Soldier id was not found")
@@ -45,6 +45,10 @@ def create_soldier(data:Soldier):
     data=data.model_dump()
     new_id=db.create(**data)
     return {"id":new_id,"message": "Soldier creates successfully"}
+@app.get("/get-names-and-ranks")
+def return_names_and_ranks():
+    result=db.get_names_and_ranks()
+    return result
 
 if __name__=="__main__":
     uvicorn.run(app, host="localhost", port=8000)

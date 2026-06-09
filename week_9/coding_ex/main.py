@@ -57,6 +57,9 @@ def all_unit_messages(unit_name):
     if not result:
         raise HTTPException(status_code=400,detail="unit was not found, nothing returned")
     return result
+@app.get("/messages/classification/{level}")
+def return_message_classify(level):
+    result= db_massages.is_messages_classify(level)
 
 if __name__=="__main__":
     uvicorn.run("main:app",host="localhost",port=8001,reload=True)

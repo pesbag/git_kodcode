@@ -1,5 +1,9 @@
 from fastapi import FastAPI
 import mysql.connector
+
+from setup import cursor
+
+
 # from coding_ex.setup_messages import cursor
 def get_connection():
     return mysql.connector.connect(
@@ -126,3 +130,6 @@ def return_messages_unit(unit_name):
     cursor.close()
     conn.close()
     return all_unit
+
+def is_messages_classify(level):
+    pass

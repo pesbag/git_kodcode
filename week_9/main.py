@@ -1,4 +1,4 @@
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException,Query
 from fastapi import Body
 import uvicorn
 import db
@@ -19,7 +19,7 @@ def get_schema():
     columns=db.get_schema()
     return {"columns":columns}
 
-@app.get("/soldiers")
+@app.get("/all-soldiers")
 def get_all_soldiers():
     result=db.get_all()
     return {"soldiers":result}
@@ -50,5 +50,29 @@ def return_names_and_ranks():
     result=db.get_names_and_ranks()
     return result
 
+@app.get("/get-by-rank")
+def present_soldier_by_rank(rank:str):
+    result=db.get_by_rank(rank)
+    return result
+
+@app.get("/soldiers/search")
+def search_soldiers(soldier_name:str=Query(...)):
+    result=db.search_by_name(soldier_name)
+    return {"soldiers":result}
+
+@app.get("/soldiers/units")
+def list_units():
+    result=db.get_distinct_units()
+    return {"units": result}
+
+@app.get("/soldiers")
+def list_soldiers(
+        rank:str | None=Query(default=None),
+        sort_it:str = Query(default="asc")
+        ):
+        if rank:
+            return {"soldiers":db.get_by_rank(rank)}
+        return {"soldiers":db.get_active_sorted(sort_it)}
+
 if __name__=="__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run("main:app", host="localhost", port=8000,reload=True)

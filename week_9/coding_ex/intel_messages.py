@@ -94,7 +94,7 @@ class IntelMessagesDAL:
         conn.close()
         return new_id
 
-    def update(self, message_id: int, data: dict):
+    def update(self, message_id: int, data:dict):
         self._logger.info("enter to update function in DAL")
         conn=self.get_conn()
         cursor=conn.cursor()
@@ -133,6 +133,7 @@ class IntelMessagesDAL:
         cursor.close()
         conn.close()
         return row
+
     def get_by_classification(self, classification: str):
         if classification not in self.VALID_CLASSIFICATIONS:
             return None
@@ -144,6 +145,7 @@ class IntelMessagesDAL:
         cursor.close()
         conn.close()
         return rows
+
     def get_by_unit_and_classification(self, unit: str, classification: str):
         conn = self.get_conn()
         cursor = conn.cursor(dictionary=True)

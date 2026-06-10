@@ -1,5 +1,7 @@
+from idlelib.query import Query
+
 from intel_messages import IntelMessagesDAL
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException,Query
 from pydantic import BaseModel
 import logging
 import uvicorn
@@ -22,9 +24,20 @@ app=FastAPI()
 @app.get("/schema")
 def get_schema_messages():
     return manager.get_schema()
+
 @app.get("/messages")
-def get_messages():
-    return manager.get_all()
+def get_messages(
+                unit:str|None=Query(default=None),
+                classification:str|None=Query(default=None)
+            ):
+    if not unit and not classification:
+        return {"soldiers":manager.get_all()}
+    elif unit and not classification:
+        return {"unit":manager.get_by_unit()}
+    elif not unit and classification:
+        return {"classification":manager.get_by_classification()}
+    else:
+        return {"unit and classification":manager.get_by_unit_and_classification()}
 
 @app.post("/messages")
 def add_massage_to_table(unit: str, classification: str, content: str, source: str| None):
@@ -65,6 +78,7 @@ def all_unit_messages(unit_name:str):
     if not result:
         raise HTTPException(status_code=400,detail="unit was not found, nothing returned")
     return result
+
 @app.get("/messages/classification/{level}")
 def return_message_classify(level:str):
     result= manager.get_by_classification(level)

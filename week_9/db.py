@@ -112,7 +112,7 @@ def delete(soldier_id):
 def get_names_and_ranks():
     conn=get_connection()
     cursor=conn.cursor(dictionary=True)
-    cursor.execute("SELECT id,soldier_rank FROM soldiers")
+    cursor.execute("SELECT name,soldier_rank FROM soldiers")
     rows=cursor.fetchall()
     cursor.close()
     conn.close()
@@ -127,7 +127,44 @@ def get_by_rank(rank:str):
     conn.close()
     return rows
 
-def get_by_name(soldier_name)
+def search_by_name(soldier_name:str):
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM soldiers WHERE name LIKE %s",(f"%{soldier_name}%",))
+    rows=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
+
+def get_active_sorted(order:str="asc"):
+    if order.lower()not in ("asc","desc"):
+        order="asc"
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM soldiers WHERE active=TRUE ORDER BY name {order.upper()}")
+    rows=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return rows
+def get_distinct_units():
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT DISTINCT unit FROM soldiers")
+    rows=cursor.fetchall()
+    if not rows:
+        raise("Error the DataBase soldiers is empty")
+    cursor.close()
+    conn.close()
+    return [row[0] for row in rows]
+
+def get_with_missing_rank():
+    conn=get_connection()
+    cursor=conn.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM soldiers WHERE soldier_rank is NULL")
+    row=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return row
 
 if __name__=="__main__":
     pass

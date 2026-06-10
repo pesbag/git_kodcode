@@ -1,3 +1,6 @@
+from email.policy import default
+from idlelib.query import Query
+
 from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel
 
@@ -14,9 +17,11 @@ app=FastAPI()
 @app.get("/schema")
 def get_schema():
     return db_massages.get_schema()
+
 @app.get("/messages")
 def get_messages():
     return db_massages.get_all_messages()
+
 @app.post("/setup")
 def post_set_up():
     return {"status":"ok"}
@@ -65,4 +70,4 @@ def return_message_classify(level):
     result= db_massages.is_messages_classify(level)
 
 if __name__=="__main__":
-    uvicorn.run("main:app",host="localhost",port=8001,reload=True)
+    uvicorn.run("main:app",host="localhost",port=8002,reload=True)

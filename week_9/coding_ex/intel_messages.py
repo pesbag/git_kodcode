@@ -183,3 +183,4 @@ class IntelMessagesDAL:
         cursor.close()
         conn.close()
         return rows
+

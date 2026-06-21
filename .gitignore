@@ -3,3 +3,6 @@
 scope_modules.zip
 Screenshot 2026-05-20 120758.png
 ___pycache__
+.vs/
+bin/
+obj/

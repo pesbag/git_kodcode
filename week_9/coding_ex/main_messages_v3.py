@@ -5,6 +5,7 @@ from fastapi import FastAPI,HTTPException,Query
 from pydantic import BaseModel
 import logging
 import uvicorn
+import reports
 
 logging.basicConfig(filename="sql_server.log",level=logging.INFO)
 logger=logging.getLogger(__name__)
@@ -96,6 +97,21 @@ def return_missing_source():
     result=manager.get_missing_source()
     return {"missing-source": result}
 
+@app.get("/stats/summary")
+def present_summary_data():
+    return reports.get_summary()
+
+@app.get("/stats/units")
+def count_soldiers_in_unit():
+    return reports.count_by_units()
+
+@app.get("/soldiers/missing-rank")
+def get_null_rank():
+    return reports.get_mising_data()
+
+@app.get("/stats/understaffed")
+def get_multiple_units():
+    return reports.get_units_with_multiple_soldiers()
 
 if __name__=="__main__":
     uvicorn.run("main_messages_v3:app",host="localhost",port=8000,reload=True)

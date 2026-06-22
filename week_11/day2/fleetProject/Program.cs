@@ -56,10 +56,7 @@ class Fleet()
         return false;
     }
     static void add(List<int> lst, int data)
-    {
-        //idLst.Add(id);
-        //speedLst.Add(speed);
-        //headLst.Add(head);
+    { 
         lst.Add(data);
         Console.WriteLine("Add items successfully");
     }
@@ -131,6 +128,7 @@ class Fleet()
         int legalId;
         int legalSpeed;
         int legalHead;
+        bool duplicate = false;
         bool loopContinue = true;
         string command = "";
         string cleanCommand = "";
@@ -161,7 +159,21 @@ class Fleet()
                 {
                     legalId = getData("id");
                     if (cleanCommand == "add")
+                        duplicate = false;
                     {
+                        if (idLst.Count > 0)
+                        {
+                            foreach(int n in idLst)
+                            {
+                                if (legalId == n)
+                                {
+                                    Console.WriteLine("Error duplicate key id found, please try again");
+                                    duplicate = true;
+                                }
+                            }
+                        }
+                        if (duplicate)
+                            continue;
                         legalSpeed = getData("speed");
                         legalHead = getData("heading");
                         add(idLst,legalId);
@@ -186,9 +198,6 @@ class Fleet()
                         List<string> result =filterTrack(idLst, speedLst, headLst, 85);
                         Console.WriteLine(result);
                     }
-                    //Console.WriteLine($"The id is: {legalId}");
-                    //Console.WriteLine($"The speed is {legalSpeed}");
-                    //Console.WriteLine($"The head is: {legalHead}");
                 }
             }
             else Console.WriteLine("Error! command not found, please try again");

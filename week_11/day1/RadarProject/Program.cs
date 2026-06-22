@@ -3,6 +3,17 @@ using System.Linq;
 namespace Demo;
 class Radar
 {
+    static string cutter(string s) {
+        string newString = "";
+        int prefix = 0;
+        int suffix = s.Length - 1;
+        while (prefix < suffix && char.IsWhiteSpace(s[prefix]))
+            prefix += 1;
+        while (prefix < suffix && char.IsWhiteSpace(s[suffix]))
+            suffix -= 1;
+        newString = s.Substring(prefix, suffix - prefix + 1);
+        return newString;
+    }
     static void Main()
     {
         string[] statusArr = {"cruising", "turning", "stopped","accelerating"};
@@ -17,13 +28,7 @@ class Radar
         while (!isInteger)
         {
             string numberForObj = Console.ReadLine();
-            int prefix = 0;
-            int suffix = numberForObj.Length - 1;
-            while (prefix < suffix && char.IsWhiteSpace(numberForObj[prefix]))
-                prefix += 1;
-            while (prefix < suffix && char.IsWhiteSpace(numberForObj[suffix]))
-                suffix -= 1;
-            string new_number = numberForObj.Substring(prefix,suffix-prefix+1);
+            string new_number =cutter(numberForObj);
             if (int.TryParse(new_number, out TrackId))
                 isInteger = true;
             else
@@ -35,13 +40,7 @@ class Radar
         while (!isInteger)
         {
             string speedMoving = Console.ReadLine();
-            int prefix = 0;
-            int suffix = speedMoving.Length - 1;
-            while (prefix < suffix && char.IsWhiteSpace(speedMoving[prefix]))
-                prefix += 1;
-            while (prefix < suffix && char.IsWhiteSpace(speedMoving[suffix]))
-                suffix -= 1;
-            string newSpeed = speedMoving.Substring(prefix, suffix - prefix + 1);
+            string newSpeed = cutter(speedMoving);
             if (double.TryParse(newSpeed, out speed))
             {
                 if (speed > 0)
@@ -59,7 +58,8 @@ class Radar
         while (!isInteger)
         {
             string headMoving = Console.ReadLine();
-            if (double.TryParse(headMoving, out head))
+            string newHeadMoving = cutter(headMoving);
+            if (double.TryParse(newHeadMoving, out head))
             {
                 if (head > 0 && head <=359)
                 {
@@ -77,13 +77,7 @@ class Radar
         while (!isInteger)
         {
             string movingStatus = Console.ReadLine();
-            int suffix = movingStatus.Length -1;
-            int prefix = 0;
-            while (prefix < suffix && char.IsWhiteSpace(movingStatus[prefix]))
-                prefix += 1;
-            while (prefix < suffix && char.IsWhiteSpace(movingStatus[suffix]))
-                suffix -= 1;
-            status = movingStatus.Substring(prefix,suffix-prefix+1);
+            status = cutter(movingStatus);
             if (statusArr.Contains(status))
                 isInteger = true;
             else
@@ -106,5 +100,6 @@ class Radar
         Console.WriteLine($"Division Demo 2: 250/60= {250/60}(int)| {250.0/60.0}(double)");
         
     }
+
 
 }

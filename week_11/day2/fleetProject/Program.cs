@@ -6,9 +6,6 @@ namespace fleetEx;
 
 class Fleet()
 {
-    static List<int> idLst = new List<int>();
-    static List<int> speedLst = new List<int>();
-    static List<int> headLst = new List<int>();
     static string cutter(string s)
     {
         string newString = "";
@@ -58,19 +55,20 @@ class Fleet()
         }
         return false;
     }
-    static void add(int id, int speed, int head)
+    static void add(List<int> lst, int data)
     {
-        idLst.Add(id);
-        speedLst.Add(speed);
-        headLst.Add(head);
+        //idLst.Add(id);
+        //speedLst.Add(speed);
+        //headLst.Add(head);
+        lst.Add(data);
         Console.WriteLine("Add items successfully");
     }
 
-    static void remove_by_id(List<int> lst,int id) {
-        int index = lst.IndexOf(id);
+    static void remove_by_id(List<int> idLst,List<int> speedLst,List<int> headLst, int id) {
+        int index = idLst.IndexOf(id);
         if (index == -1)
         {
-            Console.WriteLine("Error: Track ID not found.");
+            Console.WriteLine("Error: Track ID not found");
             return;
         }
         idLst.RemoveAt(index);
@@ -78,12 +76,57 @@ class Fleet()
         headLst.RemoveAt(index);
         Console.WriteLine("Removed successfully");
     }
-    //static string find_by_id(List<int> lst,int id){
-    //    int exists = lst.IndexOf(id);
-    //    if (index == -1) ;
-    //    }
+    static string find_by_id(List<int> idLst, List<int> speedLst, List<int> headLst, int id)
+    {
+        int exists = idLst.IndexOf(id);
+        if (exists == -1)
+        {
+            Console.WriteLine("Error: ID was not found");
+            return "";
+        }
+        string obj = $"The list of tracks: [id:{idLst[exists]} speed:{speedLst[exists]} head:{headLst[exists]}]";
+        return obj;
+    }
+    static double calcAvgSpeed(List<int> speedLst) {
+        double sum = 0;
+        if (speedLst.Count == 0)
+            return 0;
+        for(int i = 0; i < speedLst.Count; i++)
+        {
+            sum += speedLst[i];
+        } 
+        return sum / (double)speedLst.Count();
+    }
+
+    static  List<string>  filterTrack(List<int> idLst, List<int> speedLst, List<int> headLst,int threshold)
+    {
+        List<string> result = new List<string>();
+        for(int i = 0; i < idLst.Count; i++)
+        {
+            if (speedLst[i]>threshold) {
+                result.Add($"[id:{idLst[i]} speed:{speedLst[i]} head:{headLst[i]}]");
+            }
+        }
+        return result;
+    }
+    static string findFastest(List<int> idLst,List<int> speedLst,List<int> headLst)
+    {
+        int maxSpeed = -1;
+        foreach (int s in speedLst)
+        {
+            if (s > maxSpeed)
+                maxSpeed = s;
+        }
+        int index = speedLst.IndexOf(maxSpeed);
+        int fastestId = idLst[index];
+        string result = find_by_id(idLst, speedLst, headLst, fastestId);
+        return result;
+    }
     static void Main()
     {
+        List<int> idLst = new List<int>();
+        List<int> speedLst = new List<int>();
+        List<int> headLst = new List<int>();
         string[] commandArr = {"add","remove","find","list","filter","summarize","stop"};
         int legalId;
         int legalSpeed;
@@ -104,10 +147,15 @@ class Fleet()
                 {
                     if(idLst.Count==0)
                         Console.WriteLine("Error: list is empty cannot print it");
+                    
                     for (int i = 0; i < idLst.Count; i++)
                     {
-                        Console.WriteLine($"The list of tracks: [id:{idLst[i]} speed:{speedLst[i]} head:{headLst[i]}]");
+                        Console.WriteLine($"[id:{idLst[i]} speed:{speedLst[i]} head:{headLst[i]}]");
                     }
+                }
+                else if (cleanCommand == "summarize")
+                {
+                    Console.WriteLine($"total track: {idLst.Count}, average speed {calcAvgSpeed(speedLst)}, fastest track{findFastest(idLst, speedLst, headLst)})");
                 }
                 else
                 {
@@ -116,20 +164,28 @@ class Fleet()
                     {
                         legalSpeed = getData("speed");
                         legalHead = getData("heading");
-                        add(legalId, legalSpeed, legalHead);
+                        add(idLst,legalId);
+                        add(speedLst, legalSpeed);
+                        add(headLst, legalHead);
                         continue;
 
                     }
                     if (cleanCommand == "remove")
                     {
-                        remove_by_id(idLst,legalId);
+                        remove_by_id(idLst,speedLst,headLst,legalId);
                         continue;
                     }
-                    //if (cleanCommand == "find")
-                    //{
-                    //    find_by_id(legalId);
-                    //    continue;
-                    //}
+                    if (cleanCommand == "find")
+                    {
+                        string result=find_by_id(idLst, speedLst, headLst,legalId);
+                        Console.WriteLine(result);
+                        continue;
+                    }
+                    if (cleanCommand == "filter")
+                    {
+                        List<string> result =filterTrack(idLst, speedLst, headLst, 85);
+                        Console.WriteLine(result);
+                    }
                     //Console.WriteLine($"The id is: {legalId}");
                     //Console.WriteLine($"The speed is {legalSpeed}");
                     //Console.WriteLine($"The head is: {legalHead}");

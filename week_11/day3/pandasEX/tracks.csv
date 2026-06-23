@@ -1,0 +1,16 @@
+id,track_name,speed,duration_sec,genre
+1,Thunder Road,85.5,270,Rock
+2,Midnight Drive,120.0,195,Pop
+3,Slow Motion,45.2,240,Indie
+4,Fast Lane,140.7,180,Electronic
+5,City Lights,65.0,,Jazz
+6,Highway Star,155.3,310,Rock
+7,Smooth Cruise,92.1,215,Pop
+8,Shadow Walk,,265,Ambient
+9,Rocket Fuel,185.4,150,Electronic
+10,Lazy Sunday,35.8,290,Jazz
+11,Neon Nights,110.5,205,Synthwave
+12,Ocean Breeze,55.2,250,Chill
+13,Storm Chaser,165.0,190,Rock
+14,Valley Echo,,280,Indie
+15,Final Sprint,195.2,135,Electronic

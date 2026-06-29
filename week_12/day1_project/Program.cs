@@ -95,6 +95,7 @@ class BankAccount
             Console.WriteLine("Error: cannot withdraw more than have");
             return false;
         }
+        if (!IsActive) {Console.WriteLine("Account is inactive!"); return false; }
         balance -= amount;
         transactionHistory.Add($"Withdraw {amount}");
         return true;
@@ -140,14 +141,53 @@ class main()
 {
     static void Main()
     {
-        BankAccount a = new BankAccount(1, "pesach",100,"saving",true);
-        BankAccount b = new BankAccount(1, "pesach", 100, "saving", true);
-        BankAccount c = new BankAccount(1, "pesach", 100, "saving", true);
-        BankAccount d = new BankAccount(1, "pesach", 100, "saving", true);
-        BankAccount e = new BankAccount(1, "pesach", 100, "saving", true);
+        BankAccount a = new BankAccount(1, "Pesach",100,"saving",true);
+        BankAccount b = new BankAccount(2, "Shalom");
+        BankAccount c = new BankAccount(3, "Moshe", 325, "", true);
+        BankAccount d = new BankAccount(4, "Ari", 50, "buisness", true);
+        BankAccount e = new BankAccount(5, "Eli", 38, "checking", true);
         List<BankAccount> listAccount = new List<BankAccount>();
         listAccount.Add(a);
+        listAccount.Add(b);
+        listAccount.Add(c);
+        listAccount.Add(d);
+        listAccount.Add(e);
+        BankAccount f = new BankAccount(6, "", 100, "checking", true);
+        BankAccount g = new BankAccount(5, "Eli", 10, "B", true);
+        foreach(BankAccount B in listAccount)
+        {
+            Console.WriteLine(B);
+        }
+        //BankAccount acc1 = new BankAccount(1, "", -500, "invalid_type");
+        //Console.WriteLine(acc1.ToString());
 
-        Console.WriteLine($"{a}");
+        //BankAccount acc2 = new BankAccount(2, "Pesach", 1000, "Saving");
+        //BankAccount acc3 = new BankAccount(3, "Moshe", 500, "Checking");
+        //BankAccount acc4 = new BankAccount(4, "Ari", 300, "Business");
+
+        //acc2.Deposit(200);
+        //acc3.Deposit(100);
+
+        //acc2.Withdraw(150);
+        //acc3.Withdraw(1000);
+
+        //acc4.Deactivate();
+        //acc4.Deposit(50);
+        //acc4.Withdraw(20);
+        //acc4.Activate();
+
+        //Console.WriteLine($"Before transfer -> Pesach: {acc2.balance}, Moshe: {acc3.balance}");
+        //BankAccount.Transfer(acc2, acc3, 150);
+        //Console.WriteLine($"After transfer -> Pesach: {acc2.balance}, Moshe: {acc3.balance}");
+
+        //acc2.PrintTransactionHistory();
+        //acc3.PrintTransactionHistory();
+
+        //List<BankAccount> allAccounts = new List<BankAccount> { acc1, acc2, acc3, acc4 };
+        //foreach (BankAccount acc in allAccounts)
+        //{
+        //    Console.WriteLine(acc.ToString());
+        //}
+        //Console.WriteLine($"{a}");
     }
 }

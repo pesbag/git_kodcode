@@ -2,75 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-namespace ImageMetaDataManagerWrong
-{
 
-    class ImageMetaDataManager
-    {
-        public int Id { get; set; }
-        public double CloudCover { get; set; }
-        public string Sensor { get; set; }
-
-        public ImageMetaDataManager(int id, double cloudCover, string sensor)
-        {
-            Id = id;
-            CloudCover = cloudCover;
-            Sensor = sensor;
-
-        }
-        public bool IsValid()
-        {
-            return CloudCover >= 0 && CloudCover <= 100;
-        }
-        public string Format()
-            => $"Image: {Id} cloud: {CloudCover}";
-        public void SaveToFile(string path)
-        {
-            System.IO.File.WriteAllText(path, Format());
-        }
-        public int score()
-        {
-            int BasePriority;
-            switch (Sensor)
-            {
-                case "EO":
-                    BasePriority = 60;
-                    break;
-                case "SAR":
-                    BasePriority = 100;
-                    break;
-                case "IR":
-                    BasePriority = 40;
-                    break;
-                default:
-                    BasePriority = 0;
-                    break;
-            }
-            return BasePriority - (int)CloudCover;
-        }
-        //public static void Main()
-        //{
-        //    ImageMetaDataManager u = new ImageMetaDataManager(2, 45, "EO");
-        //    Console.WriteLine(u.Format());
-        //    Console.WriteLine(u.score());
-        //    ImageMetaDataManager u1 = new ImageMetaDataManager(5, 55, "SAR");
-        //    Console.WriteLine(u1.Format());
-        //    Console.WriteLine(u1.score());
-        //    ImageMetaDataManager u2 = new ImageMetaDataManager(8, 75, "IR");
-        //    Console.WriteLine(u2.score());
-        //}
-
-    }
-}
-
-
-
-
-
-
-
-
-namespace ImageMetaDataManagerright
+namespace ImageMetaDataManagerSecondRefactor
 {
     public abstract class SatelliteImage
     {
@@ -89,13 +22,15 @@ namespace ImageMetaDataManagerright
         }
     }
 
-    public class SARImage : SatelliteImage
+    public class SARImage : SatelliteImage, IScoreable
     {
+
         public override string SensorType => "SAR";
 
         public SARImage(int id, double cloudCover) : base(id, cloudCover) { }
 
         public override int Score() => 100 - (int)CloudCover;
+        
     }
 
     public class EOImage : SatelliteImage
@@ -115,23 +50,12 @@ namespace ImageMetaDataManagerright
 
         public override int Score() => 40 - (int)CloudCover;
     }
-    public class MULTIAPECTRAL : SatelliteImage
-    {
-        public MULTIAPECTRAL(int id, double cloudCover) : base(id, cloudCover) { }
-        public override string SensorType => "MULTIAPECTRAL";
-        public override int Score()
-        {
-            throw new ArgumentOutOfRangeException("CloudCover must be between 0 and 100");
-        }
-    }
     public class QuickLookImage : SatelliteImage
     {
         public QuickLookImage(int id, double cloudCover) : base(id, cloudCover) { }
         public override string SensorType => "QuiqLookImage";
         public override int Score()
-        {
-            throw new ArgumentOutOfRangeException("CloudCover must be between 0 and 100");
-        }
+        => 0;
     }
     public class ImageFormatter
     {
@@ -151,6 +75,19 @@ namespace ImageMetaDataManagerright
             File.WriteAllText(path, logLine);
         }
     }
+    public interface IScoreable
+    {
+        int Score();
+    }
+    public interface IRetaskable
+    {
+        void Retask();
+    }
+    public interface ICalibrateable
+    {
+        void CalibrateThermal();
+    }
+
 
     public class Repository<T> where T : SatelliteImage
     {
@@ -176,8 +113,10 @@ namespace ImageMetaDataManagerright
                 repo.Add(new SARImage(4, 150));
             }
             catch (ArgumentOutOfRangeException ex)
+            { Console.WriteLine(ex.Message); }
+            finally
             {
-                Console.WriteLine($"Managed to block invalid construction: {ex.Message}");
+                Console.WriteLine("Enter to finally");
             }
 
             Console.WriteLine("processing images");

@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="monday.cs" />
+    <File Path="mondayRefactor.cs" />
+  </Folder>
   <Project Path="ImageMetaDataManager.csproj" />
 </Solution>

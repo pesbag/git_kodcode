@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-namespace day3
+namespace day3Refactor
 {
     public abstract class SatelliteImage
     {
@@ -19,31 +19,56 @@ namespace day3
             CloudCover = cloudCover;
         }
     }
+    public interface IDatabaseStore
+    {
+        void Save(SatelliteImage img);
+    }
+    class MemoryStore : IDatabaseStore
+    {
+        private readonly List<SatelliteImage> _store = new List<SatelliteImage>();
+        public void Save(SatelliteImage img)
+        {
+            _store.Add(img);
+        }
+        public int Count => _store.Count;
+    }
+    class DiskStore: IDatabaseStore
+        {
+        public void Save(SatelliteImage img) { }
+        }
+    class ImageProcessor
+    {
+        private readonly IDatabaseStore _store;
+        public ImageProcessor(IDatabaseStore store) => _store = store;
+        public void handle(SatelliteImage img) => _store.Save(img);
+    }
+
     class ImagePipeLine
     {
         public SatelliteImage? StateImage;
-        
+
         private readonly MemoryStore _memStore = new MemoryStore();
-        public void  ShowList(IEnumerable<SatelliteImage> imgs)
+        //private readonly 
+        public void ShowList(IEnumerable<SatelliteImage> imgs)
         {
-            foreach(SatelliteImage i in imgs)
+            foreach (SatelliteImage i in imgs)
             {
                 int scoreCalc = i.Score();
                 _memStore.Save(i);
             }
         }
-        public int StoredCount => _memStore.Count;
+        //public int StoredCount => _memStore.Count;
     }
-    class MemoryStore
-    {
-        private readonly List<SatelliteImage>  _store =new List<SatelliteImage>();
-        public void Save(SatelliteImage img) 
-        {
-            _store.Add(img);
-        }
-        public int Count
-            => _store.Count();
-    }
+    //class MemoryStore
+    //{
+    //    private readonly List<SatelliteImage> _store = new List<SatelliteImage>();
+    //    public void Save(SatelliteImage img)
+    //    {
+    //        _store.Add(img);
+    //    }
+    //    public int Count
+    //        => _store.Count();
+    //}
 
     public class SARImage : SatelliteImage, IScoreable
     {
@@ -157,7 +182,7 @@ namespace day3
 
             //Console.WriteLine($"\nTotal System Score: {totalScore}");
 
-            Console.WriteLine($"Total images stored: {pipeline.StoredCount}");
+            //Console.WriteLine($"Total images stored: {pipeline.StoredCount}");
         }
     }
 }

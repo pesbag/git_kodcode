@@ -1,0 +1,22 @@
+[
+  {
+    "Id": 1,
+    "Category": "SIGNAL",
+    "Priority": 3
+  },
+  {
+    "Id": 2,
+    "Category": "IMAGERY",
+    "Priority": 5
+  },
+  {
+    "Id": 5,
+    "Category": "IMAGERY",
+    "Priority": 1
+  },
+  {
+    "Id": 6,
+    "Category": "COMMS",
+    "Priority": 4
+  }
+]

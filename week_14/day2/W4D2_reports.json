@@ -1,0 +1,162 @@
+[
+  {
+    "Id": 1,
+    "Category": "SIGNAL",
+    "Priority": 3,
+    "Zone": "North",
+    "SignalStrength": 72,
+    "Shift": "Day"
+  },
+  {
+    "Id": 2,
+    "Category": "IMAGERY",
+    "Priority": 5,
+    "Zone": "East",
+    "SignalStrength": 88,
+    "Shift": "Night"
+  },
+  {
+    "Id": 3,
+    "Category": "SIGNAL",
+    "Priority": 2,
+    "Zone": "North",
+    "SignalStrength": 65,
+    "Shift": "Day"
+  },
+  {
+    "Id": 4,
+    "Category": "COMMS",
+    "Priority": 4,
+    "Zone": "South",
+    "SignalStrength": 91,
+    "Shift": "Night"
+  },
+  {
+    "Id": 5,
+    "Category": "IMAGERY",
+    "Priority": 1,
+    "Zone": "West",
+    "SignalStrength": 55,
+    "Shift": "Day"
+  },
+  {
+    "Id": 6,
+    "Category": "COMMS",
+    "Priority": 5,
+    "Zone": "South",
+    "SignalStrength": 84,
+    "Shift": "Day"
+  },
+  {
+    "Id": 7,
+    "Category": "SIGNAL",
+    "Priority": 4,
+    "Zone": "East",
+    "SignalStrength": 78,
+    "Shift": "Night"
+  },
+  {
+    "Id": 8,
+    "Category": "IMAGERY",
+    "Priority": 3,
+    "Zone": "North",
+    "SignalStrength": 69,
+    "Shift": "Day"
+  },
+  {
+    "Id": 9,
+    "Category": "COMMS",
+    "Priority": 2,
+    "Zone": "West",
+    "SignalStrength": 61,
+    "Shift": "Night"
+  },
+  {
+    "Id": 10,
+    "Category": "SIGNAL",
+    "Priority": 5,
+    "Zone": "South",
+    "SignalStrength": 95,
+    "Shift": "Night"
+  },
+  {
+    "Id": 11,
+    "Category": "IMAGERY",
+    "Priority": 4,
+    "Zone": "East",
+    "SignalStrength": 82,
+    "Shift": "Day"
+  },
+  {
+    "Id": 12,
+    "Category": "COMMS",
+    "Priority": 3,
+    "Zone": "North",
+    "SignalStrength": 74,
+    "Shift": "Day"
+  },
+  {
+    "Id": 13,
+    "Category": "SIGNAL",
+    "Priority": 1,
+    "Zone": "West",
+    "SignalStrength": 52,
+    "Shift": "Day"
+  },
+  {
+    "Id": 14,
+    "Category": "IMAGERY",
+    "Priority": 2,
+    "Zone": "South",
+    "SignalStrength": 63,
+    "Shift": "Night"
+  },
+  {
+    "Id": 15,
+    "Category": "COMMS",
+    "Priority": 4,
+    "Zone": "East",
+    "SignalStrength": 87,
+    "Shift": "Day"
+  },
+  {
+    "Id": 16,
+    "Category": "SIGNAL",
+    "Priority": 3,
+    "Zone": "South",
+    "SignalStrength": 71,
+    "Shift": "Night"
+  },
+  {
+    "Id": 17,
+    "Category": "IMAGERY",
+    "Priority": 5,
+    "Zone": "North",
+    "SignalStrength": 93,
+    "Shift": "Day"
+  },
+  {
+    "Id": 18,
+    "Category": "COMMS",
+    "Priority": 1,
+    "Zone": "West",
+    "SignalStrength": 49,
+    "Shift": "Night"
+  },
+  {
+    "Id": 19,
+    "Category": "SIGNAL",
+    "Priority": 4,
+    "Zone": "North",
+    "SignalStrength": 80,
+    "Shift": "Night"
+  },
+  {
+    "Id": 20,
+    "Category": "IMAGERY",
+    "Priority": 3,
+    "Zone": "East",
+    "SignalStrength": 76,
+    "Shift": "Day"
+  }
+]
